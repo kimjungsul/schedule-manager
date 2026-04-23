@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Mvc; using Microsoft.EntityFrameworkCore; using ScheduleManager.Api.Data; using ScheduleManager.Api.Models;[오후 12:31][ApiController] [Route("api/v1/[controller]")] public class ProjectsController : ControllerBase {
+
+cat <<EOF > backend/ScheduleManager.Api/Controllers/TasksController.cs
 using Microsoft.AspNetCore.Mvc; using Microsoft.EntityFrameworkCore; using ScheduleManager.Api.Data; using ScheduleManager.Api.Models;
-[ApiController] [Route("api/v1/[controller]")] public class ProjectsController : ControllerBase {
-    private readonly ApplicationDbContext _ctx; public ProjectsController(ApplicationDbContext ctx) => _ctx = ctx;
-    [HttpGet] public async Task<IActionResult> Get() => Ok(await _ctx.Projects.ToListAsync());
-ApiController] [Route("api/v1/[controller]")] public class TasksController : ControllerBase {
+[ApiController] [Route("api/v1/[controller]")] public class TasksController : ControllerBase {
     private readonly ApplicationDbContext _ctx; public TasksController(ApplicationDbContext ctx) => _ctx = ctx;
     [HttpGet("my")] public async Task<IActionResult> My([FromQuery] int userId) => Ok(await _ctx.Tasks.Where(t => t.UserId == userId).ToListAsync());
     [HttpGet] public async Task<IActionResult> All() => Ok(await _ctx.Tasks.Include(t => t.User).ToListAsync());
