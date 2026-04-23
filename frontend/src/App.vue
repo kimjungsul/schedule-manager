@@ -2,7 +2,8 @@
   <div class="min-h-screen bg-gray-100">
     <nav class="bg-indigo-600 text-white p-4 flex justify-between items-center shadow-lg">
       <div class="text-xl font-bold">:date: Schedule Manager</div>
-      <div class="flex gap-4">[오후 12:31]<button @click="currentView = 'register'" class="hover:underline">User Registration</button>
+      <div class="flex gap-4">
+        <button @click="currentView = 'register'" class="hover:underline">User Registration</button>
         <button @click="currentView = 'projects'" class="hover:underline">Projects</button>
         <button @click="currentView = 'my'" class="hover:underline">My Schedule</button>
         <button @click="currentView = 'master'" class="hover:underline">Master Board</button>
