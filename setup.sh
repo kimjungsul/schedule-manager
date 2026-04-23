@@ -63,10 +63,11 @@ cat <<EOF > backend/ScheduleManager.Api/ScheduleManager.Api.csproj
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 </Project>
 EOF
+
 cat <<EOF > backend/ScheduleManager.Api/Models/User.cs
 using System.ComponentModel.DataAnnotations;
 namespace ScheduleManager.Api.Models {
@@ -115,10 +116,12 @@ using Microsoft.AspNetCore.Mvc; using Microsoft.EntityFrameworkCore; using Sched
 [ApiController] [Route("api/v1/[controller]")] public class UsersController : ControllerBase {
     private readonly ApplicationDbContext _ctx; public UsersController(ApplicationDbContext ctx) => _ctx = ctx;
     [HttpPost("register")] public async Task<IActionResult> Reg([FromBody] User u) { _ctx.Users.Add(u); await _ctx.SaveChangesAsync(); return Ok(u); }
-    [HttpGet] public async Task<IActionResult> Get() => Ok(await _ctx.Users.ToListAsync());
+[HttpGet] public async Task<IActionResult> Get() => Ok(await _ctx.Users.ToListAsync());
 }
 EOF
 cat <<EOF > backend/ScheduleManager.Api/Controllers/ProjectsController.cs
+using Microsoft.AspNetCore.Mvc; using Microsoft.EntityFrameworkCore; using ScheduleManager.Api.Data; using ScheduleManager.Api.Models;
+[ApiController] [Route("api/v1/[controller]")] public class ProjectsController : ControllerBase 
 private readonly ApplicationDbContext _ctx; public ProjectsController(ApplicationDbContext ctx) => _ctx = ctx;
     [HttpGet] public async Task<IActionResult> Get() => Ok(await _ctx.Projects.ToListAsync());
     [HttpPost] public async Task<IActionResult> Post([FromBody] Project p) { _ctx.Projects.Add(p); await _ctx.SaveChangesAsync(); return Ok(p); }
@@ -238,6 +241,13 @@ cat <<EOF > frontend/src/components/ProjectManager.vue
       <div v-for="p in projects" :key="p.projectId" class="bg-white p-4 rounded shadow"><h3 class="font-bold text-lg">{{ p.projectName }}</h3><p class="text-gray-600 text-sm">{{ p.description }}</p></div>
     </div>
     <div v-if="showCreateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+ <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+        <h3 class="text-xl font-bold mb-4">새 프로젝트 생성</h3>
+        <input v-model="newP.projectName" type="text" class="w-full p-2 border rounded mb-2" placeholder="프로젝트명">
+        <textarea v-model="newP.description" class="w-full p-2 border rounded mb-2" placeholder="설명"></textarea>
+        <input v-model="newP.startDate" type="date" class="w-full p-2 border rounded mb-2">
+        <input v-model="newP.endDate" type="date" class="w-full p-2 border rounded mb-2">
+        <div class="flex gap-2"><button @click="showCreateModal = false" class="flex-1 p-2 bg-gray-200 rounded">취소</button><button @click="create" class="flex-1 p-2 bg-indigo-600 text-white rounded">저장</button></div>
 </div>
     </div>
   </div>
@@ -315,6 +325,6 @@ EOF
 git config --global user.email "pm@example.com"
 git config --global user.name "PM-User"
 git add .
-git commit -m ":rocket: FINAL COMPLETE DEPLOYMENT - Script Version"
+git commit -m ":rocket: FINAL COMPLETE DEPLOYMENT - Clean Version"
 git push origin main
 EOF
